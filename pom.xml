@@ -46,28 +46,6 @@
                     </descriptorRefs>
                 </configuration>
             </plugin>
-            <plugin>
-                <groupId>org.apache.maven.plugins</groupId>
-                <artifactId>maven-dependency-plugin</artifactId>
-                <version>2.4</version>
-                <executions>
-                    <execution>
-                        <id>copy-dependencies</id>
-                        <phase>package</phase>
-                        <goals>
-                            <goal>copy-dependencies</goal>
-                        </goals>
-                        <configuration>
-                            <outputDirectory>${project.build.directory}/lib</outputDirectory>
-                            <overWriteReleases>false</overWriteReleases>
-                            <overWriteSnapshots>false</overWriteSnapshots>
-                            <overWriteIfNewer>true</overWriteIfNewer>
-                            <excludeGroupIds>org.apache.jmeter,javax.activation,org.apache.avalon,org.apache.bsf,avalon,commons-codec,commons-collections,commons-httpclient,commons-io,commons-jexl,commons-lang,commons-logging,commons-net,excalibur,org.apache.geronimo.specs,org.htmlparser,org.apache.httpcomponents,jcharts,logkit,oro,xalan,xerces,xml-apis,xpp3,bsf,org.beanshell,org.apache.xmlgraphics</excludeGroupIds>
-                            <excludeArtifactIds>commons-jexl,js,jtidy,junit,mail,serializer,soap,xstream,xmlenc,jdom</excludeArtifactIds>
-                        </configuration>
-                    </execution>
-                </executions>
-            </plugin>
         </plugins>
         <pluginManagement>
             <plugins>
