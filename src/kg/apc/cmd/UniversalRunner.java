@@ -17,7 +17,6 @@ import java.util.StringTokenizer;
  * Main class for CLI - sets up initial classpath and the loader. I took it from
  * JMeter, yes, but I changed it a lot.
  */
-
 /// FIXME: the code looks so poorly structured, refactor it!!!
 public final class UniversalRunner {
 
@@ -53,7 +52,7 @@ public final class UniversalRunner {
         }
         jarDirectory = getJarDirectory(initial_classpath);
         // Add standard jar locations to initial classpath
-        buildUpdatedClassPath(jarDirectory+File.separator+"lib", jars, classpath);
+        buildUpdatedClassPath(jarDirectory, jars, classpath);
 
         // ClassFinder needs the classpath
         String cp = classpath.toString();
@@ -95,8 +94,13 @@ public final class UniversalRunner {
             f = f.getParentFile();
         }
 
-        Iterator it = libDirs.iterator();
+        // add lib subdir
+        f = new File(jarDir + File.separator + "lib");
+        if (f != null) {
+            libDirs.add(f.getAbsoluteFile());
+        }
 
+        Iterator it = libDirs.iterator();
         while (it.hasNext()) {
             File libDir = (File) it.next();
             File[] libJars = libDir.listFiles(jarFilter);
