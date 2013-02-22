@@ -64,7 +64,7 @@ public class PluginsCMD extends AbstractCMDTool {
     }
 
     private void showVersion(PrintStream os) {
-        os.println("JP@GC Tools v. 1.0.0"); // TODO: keep in sync automatically
+        os.println("JP@GC Tools v. 1.0.1"); // TODO: keep in sync automatically
     }
 
     protected void showHelp(PrintStream os) {
