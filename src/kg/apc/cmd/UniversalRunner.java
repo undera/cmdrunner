@@ -53,12 +53,12 @@ public final class UniversalRunner {
         }
         jarDirectory = getJarDirectory(initial_classpath);
         // Add standard jar locations to initial classpath
-        buildUpdatedClassPath(jars, classpath);
+        buildUpdatedClassPath(jarDirectory+File.separator+"lib", jars, classpath);
 
         // ClassFinder needs the classpath
         String cp = classpath.toString();
         System.setProperty(JAVA_CLASS_PATH, cp);
-        System.err.println(cp);
+        //System.err.println(cp);
         //p.list(System.err);
 
         URL[] urls = (URL[]) jars.toArray(new URL[0]);
@@ -87,9 +87,9 @@ public final class UniversalRunner {
         return tmpDir;
     }
 
-    private static StringBuffer buildUpdatedClassPath(List jars, StringBuffer classpath) {
+    private static StringBuffer buildUpdatedClassPath(String jarDir, List jars, StringBuffer classpath) {
         List libDirs = new LinkedList();
-        File f = new File(jarDirectory);
+        File f = new File(jarDir);
         while (f != null) {
             libDirs.add(f.getAbsoluteFile());
             f = f.getParentFile();
