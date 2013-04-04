@@ -20,12 +20,12 @@ import java.util.StringTokenizer;
 /// FIXME: the code looks so poorly structured, refactor it!!!
 public final class UniversalRunner {
 
-    private static final String CLASSPATH_SEPARATOR = System.getProperty("path.separator");
-    private static final String OS_NAME = System.getProperty("os.name");
+    public static final String CLASSPATH_SEPARATOR = System.getProperty("path.separator");
+    public static final String OS_NAME = System.getProperty("os.name");
     private static final String OS_NAME_LC = OS_NAME.toLowerCase(java.util.Locale.ENGLISH);
-    private static final String JAVA_CLASS_PATH = "java.class.path";
+    public static final String JAVA_CLASS_PATH = "java.class.path";
     private static final String jarDirectory;
-    private static final String ADDITIONAL_CP = "additional.classpath";
+    public static final String ADDITIONAL_CP = "additional.classpath";
     private static final FilenameFilter jarFilter = new FilenameFilter() {
         public boolean accept(File dir, String name) {// only accept jar files
             return name.endsWith(".jar");
@@ -96,7 +96,7 @@ public final class UniversalRunner {
 
         // add lib subdir
         f = new File(jarDir + File.separator + "lib");
-        if (f != null) {
+        if (f != null && f.exists()) {
             libDirs.add(f.getAbsoluteFile());
         }
 
