@@ -96,7 +96,7 @@ public final class UniversalRunner {
 
         // add lib subdir
         f = new File(jarDir + File.separator + "lib");
-        if (f != null && f.exists()) {
+        if (f.exists()) {
             libDirs.add(f.getAbsoluteFile());
         }
 
@@ -106,7 +106,6 @@ public final class UniversalRunner {
             File[] libJars = libDir.listFiles(jarFilter);
 
             if (libJars == null) {
-                new Throwable("Could not access " + libDir).printStackTrace(System.err);
                 continue;
             }
             addFiles(libJars, jars, classpath);
