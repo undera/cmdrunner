@@ -68,10 +68,10 @@ public class PluginsCMD extends AbstractCMDTool {
     }
 
     protected void showHelp(PrintStream os) {
-        os.println("JMeter Plugins at Google Code Command-Line Tools");
-        os.println("For help and support please visit http://code.google.com/p/jmeter-plugins/wiki/JMeterPluginsCMD");
+        os.println("JMeter Plugins at jmeter-plugins.org Code Command-Line Tools");
+        os.println("For help and support please visit http://jmeter-plugins.org/wiki/JMeterPluginsCMD");
         os.println("Usage:\n JMeterPluginsCMD "
-                + "--tool < Reporter | PerfMonAgent > [--help]");
+                + "--tool < Reporter | PerfMonAgent | TestPlanCheck | FilterResults > [--help]");
 
         AbstractCMDTool tool;
         try {
@@ -84,6 +84,22 @@ public class PluginsCMD extends AbstractCMDTool {
 
         try {
             tool = getToolInstance("PerfMonAgent");
+            os.println();
+            tool.showHelp(os);
+        } catch (RuntimeException e) {
+            os.println(e.getMessage());
+        }
+        
+        try {
+            tool = getToolInstance("TestPlanCheck");
+            os.println();
+            tool.showHelp(os);
+        } catch (RuntimeException e) {
+            os.println(e.getMessage());
+        }
+        
+        try {
+            tool = getToolInstance("FilterResults");
             os.println();
             tool.showHelp(os);
         } catch (RuntimeException e) {
