@@ -39,8 +39,8 @@ public final class UniversalRunner {
     }
 
     private static List<URL> buildUpdatedClassPath(String jarDir, StringBuffer classpath) {
-        List<URL> jars = new LinkedList<>();
-        List<File> libDirs = new LinkedList<>();
+        List<URL> jars = new LinkedList<URL>();
+        List<File> libDirs = new LinkedList<File>();
         File f = new File(jarDir);
         while (f != null) {
             libDirs.add(f.getAbsoluteFile());

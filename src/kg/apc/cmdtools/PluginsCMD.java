@@ -10,7 +10,6 @@ import java.util.ListIterator;
  * This class used to handle all command-line stuff
  * like parameter processing etc. All real work
  * made by PluginsCMDWorker
- *
  */
 public class PluginsCMD extends AbstractCMDTool {
 
@@ -24,7 +23,7 @@ public class PluginsCMD extends AbstractCMDTool {
 
     public static ListIterator argsArrayToListIterator(String[] args) {
         List<String> arrayArgs = Arrays.asList(args);
-        return new LinkedList<>(arrayArgs).listIterator();
+        return new LinkedList<String>(arrayArgs).listIterator();
     }
 
     protected int processParams(ListIterator args) throws UnsupportedOperationException, IllegalArgumentException {
@@ -32,27 +31,24 @@ public class PluginsCMD extends AbstractCMDTool {
 
         while (args.hasNext()) {
             String arg = (String) args.next();
-            switch (arg) {
-                case "-?":
-                case "--help":
-                    showHelp(System.out);
-                    // FIXME: how to show help for the tool?
-                    return 0;
-                case "--version":
-                    showVersion(System.out);
-                    return 0;
-                case "":
-                    args.remove();
-                    break;
-                case "--tool":
-                    args.remove();
-                    if (!args.hasNext()) {
-                        throw new IllegalArgumentException("No tool name passed");
-                    }
-                    arg = (String) args.next();
-                    tool = getToolInstance(arg);
-                    args.remove();
-                    break;
+            if (arg.equals("-?") || arg.equals("--help")) {
+                showHelp(System.out);
+                // FIXME: how to show help for the tool?
+                return 0;
+            } else if (arg.equals("--version")) {
+                showVersion(System.out);
+                return 0;
+            } else if (arg.equals("")) {
+                args.remove();
+
+            } else if (arg.equals("--tool")) {
+                args.remove();
+                if (!args.hasNext()) {
+                    throw new IllegalArgumentException("No tool name passed");
+                }
+                arg = (String) args.next();
+                tool = getToolInstance(arg);
+                args.remove();
             }
         }
 
@@ -130,7 +126,9 @@ public class PluginsCMD extends AbstractCMDTool {
 
         try {
             return (AbstractCMDTool) toolClass.newInstance();
-        } catch (InstantiationException | IllegalAccessException ex) {
+        } catch (InstantiationException ex) {
+            throw new RuntimeException("Cannot instantiate tool class: " + arg, ex);
+        } catch (IllegalAccessException ex) {
             throw new RuntimeException("Cannot instantiate tool class: " + arg, ex);
         }
     }
