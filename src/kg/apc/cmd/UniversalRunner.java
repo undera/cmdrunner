@@ -36,6 +36,7 @@ public final class UniversalRunner {
         URL[] urls = jars.toArray(new URL[0]);
         URLClassLoader loader = new URLClassLoader(urls);
         Thread.currentThread().setContextClassLoader(loader);
+        System.setProperty("log4j.configurationFile", new File(self.getParentFile().getParent(), "bin/log4j2.xml").getAbsolutePath());
     }
 
     private static List<URL> buildUpdatedClassPath(String jarDir, StringBuffer classpath) {
