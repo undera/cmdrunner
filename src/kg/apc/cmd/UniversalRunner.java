@@ -36,6 +36,17 @@ public final class UniversalRunner {
         URL[] urls = jars.toArray(new URL[0]);
         URLClassLoader loader = new URLClassLoader(urls);
         Thread.currentThread().setContextClassLoader(loader);
+        setJMeterHome(self.getParentFile().getParent());
+    }
+
+    private static void setJMeterHome(String home) {
+        try {
+            Class cls = Thread.currentThread().getContextClassLoader().loadClass("org.apache.jmeter.util.JMeterUtils");
+            Method setJMeterHome = cls.getMethod("setJMeterHome", String.class);
+            setJMeterHome.invoke(null, home);
+        } catch (Throwable ex) {
+            System.out.println("Cannot set JMeter home directory. Reason is: " + ex.getMessage());
+        }
     }
 
     private static List<URL> buildUpdatedClassPath(String jarDir, StringBuffer classpath) {
