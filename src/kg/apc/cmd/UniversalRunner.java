@@ -4,10 +4,12 @@ package kg.apc.cmd;
 
 import java.io.File;
 import java.io.FilenameFilter;
+import java.io.UnsupportedEncodingException;
 import java.lang.reflect.Method;
 import java.net.MalformedURLException;
 import java.net.URL;
 import java.net.URLClassLoader;
+import java.net.URLDecoder;
 import java.util.LinkedList;
 import java.util.List;
 
@@ -26,7 +28,7 @@ public final class UniversalRunner {
         StringBuffer classpath = new StringBuffer();
 
         File self = new File(UniversalRunner.class.getProtectionDomain().getCodeSource().getLocation().getFile());
-        jarDirectory = self.getParent();
+        jarDirectory = decodePath(self.getParent());
         // Add standard jar locations to initial classpath
         List<URL> jars = buildUpdatedClassPath(jarDirectory, classpath);
 
@@ -36,7 +38,18 @@ public final class UniversalRunner {
         URL[] urls = jars.toArray(new URL[0]);
         URLClassLoader loader = new URLClassLoader(urls);
         Thread.currentThread().setContextClassLoader(loader);
-        System.setProperty("log4j.configurationFile", new File(self.getParentFile().getParent(), "bin/log4j2.xml").getAbsolutePath());
+
+        System.setProperty("log4j.configurationFile", new File(decodePath(self.getParentFile().getParent()), "bin/log4j2.xml").getAbsolutePath());
+    }
+
+    private static String decodePath(String path) {
+        try {
+            return URLDecoder.decode(path, "UTF-8");
+        } catch (UnsupportedEncodingException e) {
+            System.out.println("Failed decode path: " + path);
+            e.printStackTrace(System.out);
+            return path;
+        }
     }
 
     private static List<URL> buildUpdatedClassPath(String jarDir, StringBuffer classpath) {
