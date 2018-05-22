@@ -31,7 +31,6 @@ public final class UniversalRunner {
         jarDirectory = decodePath(self.getParent());
         // Add standard jar locations to initial classpath
         List<URL> jars = buildUpdatedClassPath(jarDirectory, classpath);
-
         String cp = classpath.toString();
         System.setProperty(JAVA_CLASS_PATH, cp);
 
@@ -56,10 +55,7 @@ public final class UniversalRunner {
         List<URL> jars = new LinkedList<URL>();
         List<File> libDirs = new LinkedList<File>();
         File f = new File(jarDir);
-        while (f != null) {
-            libDirs.add(f.getAbsoluteFile());
-            f = f.getParentFile();
-        }
+        libDirs.add(f.getAbsoluteFile());
 
         // add lib subdir
         f = new File(jarDir + File.separator + "ext");
