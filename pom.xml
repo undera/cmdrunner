@@ -3,98 +3,12 @@
     <modelVersion>4.0.0</modelVersion>
 
     <groupId>kg.apc</groupId>
-    <artifactId>cmdrunner</artifactId>
+    <artifactId>cmd-runner-util</artifactId>
+    <packaging>pom</packaging>
     <version>2.2</version>
-    <packaging>jar</packaging>
+    <modules>
+        <module>cmdrunner</module>
+        <module>logging-utils</module>
+    </modules>
 
-    <name>Universal command-line tool runner</name>
-    <description>Universal runner used by JP@GC and PerfMon server agent</description>
-    <licenses>
-        <license>
-            <name>The Apache Software License, Version 2.0</name>
-            <url>http://www.apache.org/licenses/LICENSE-2.0.txt</url>
-            <distribution>repo</distribution>
-        </license>
-    </licenses>
-    <url>http://code.google.com/p/jmeter-plugins/</url>
-    <scm>
-        <url>https://github.com/undera/cmdrunner</url>
-        <connection>scm:git:https://github.com/undera/cmdrunner.git</connection>
-        <developerConnection>scm:git://git@github.com:undera/cmdrunner.git</developerConnection>
-    </scm>
-    <developers>
-        <developer>
-            <email>apc4@ya.ru</email>
-        </developer>
-    </developers>
-
-    <properties>
-        <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
-        <java-version>1.5</java-version>
-    </properties>
-
-    <dependencies>
-        <dependency>
-            <groupId>junit</groupId>
-            <artifactId>junit</artifactId>
-            <version>4.8.1</version>
-            <scope>test</scope>
-        </dependency>
-    </dependencies>
-
-    <build>
-        <sourceDirectory>src</sourceDirectory>
-        <testSourceDirectory>test</testSourceDirectory>
-        <plugins>
-            <plugin>
-                <groupId>org.apache.maven.plugins</groupId>
-                <artifactId>maven-compiler-plugin</artifactId>
-                <version>2.3.2</version>
-                <configuration>
-                    <source>${java-version}</source>
-                    <target>${java-version}</target>
-                </configuration>
-            </plugin>
-            <plugin>
-                <artifactId>maven-assembly-plugin</artifactId>
-                <configuration>
-                    <finalName>ABH-plugin</finalName>
-                    <appendAssemblyId>false</appendAssemblyId>
-                    <descriptorRefs>
-                        <descriptorRef>jar-with-dependencies</descriptorRef>
-                    </descriptorRefs>
-                </configuration>
-            </plugin>
-            <plugin>
-                <groupId>org.apache.maven.plugins</groupId>
-                <artifactId>maven-jar-plugin</artifactId>
-                <version>2.4</version>
-                <configuration>
-                    <archive>
-                        <index>true</index>
-                        <manifest>
-                            <addClasspath>true</addClasspath>
-                        </manifest>
-                        <manifestEntries>
-                            <Url>${project.url}</Url>
-                            <Main-Class>kg.apc.cmd.UniversalRunner</Main-Class>
-                        </manifestEntries>
-                    </archive>
-                </configuration>
-            </plugin>
-
-            <plugin>
-                <groupId>org.sonatype.plugins</groupId>
-                <artifactId>nexus-staging-maven-plugin</artifactId>
-                <version>1.6.7</version>
-                <extensions>true</extensions>
-                <configuration>
-                    <serverId>sonatype-nexus-staging</serverId>
-                    <nexusUrl>https://oss.sonatype.org/</nexusUrl>
-                    <autoReleaseAfterClose>true</autoReleaseAfterClose>
-                </configuration>
-            </plugin>
-
-        </plugins>
-    </build>
 </project>

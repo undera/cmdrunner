@@ -1,9 +1,10 @@
 package kg.apc.cmdtools;
 
+import junit.framework.TestCase;
 import kg.apc.cmdtools.AbstractCMDTool;
+
 import java.io.PrintStream;
 import java.util.ListIterator;
-import junit.framework.TestCase;
 
 /**
  *
