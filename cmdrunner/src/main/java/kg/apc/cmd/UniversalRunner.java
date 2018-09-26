@@ -4,12 +4,17 @@ package kg.apc.cmd;
 
 import java.io.File;
 import java.io.FilenameFilter;
+import java.io.IOException;
+import java.io.InputStream;
 import java.io.UnsupportedEncodingException;
+import java.lang.reflect.Constructor;
 import java.lang.reflect.Method;
 import java.net.MalformedURLException;
 import java.net.URL;
 import java.net.URLClassLoader;
 import java.net.URLDecoder;
+import java.nio.file.Files;
+import java.nio.file.StandardCopyOption;
 import java.util.LinkedList;
 import java.util.List;
 
@@ -28,6 +33,7 @@ public final class UniversalRunner {
         StringBuffer classpath = new StringBuffer();
 
         File self = new File(UniversalRunner.class.getProtectionDomain().getCodeSource().getLocation().getFile());
+        unzipLoggingHooker(self.getParentFile());
         jarDirectory = decodePath(self.getParent());
         // Add standard jar locations to initial classpath
         List<URL> jars = buildUpdatedClassPath(jarDirectory, classpath);
@@ -39,6 +45,27 @@ public final class UniversalRunner {
         Thread.currentThread().setContextClassLoader(loader);
 
         System.setProperty("log4j.configurationFile", new File(decodePath(self.getParentFile().getParent()), "bin/log4j2.xml").getAbsolutePath());
+        hookLogging(loader);
+    }
+
+    private static void hookLogging(URLClassLoader loader) {
+        try {
+            Class<?> cls = loader.loadClass("org.jmeterplugins.logging.LoggingHooker");
+            Constructor constructor = cls.getConstructor();
+            constructor.newInstance();
+        } catch (Throwable ex) {
+            System.out.println("Cannot configure logging");
+            ex.printStackTrace(System.out);
+        }
+    }
+
+    private static void unzipLoggingHooker(File root) {
+        File dest = new File(root, "logging-utils.jar");
+        try (InputStream is = UniversalRunner.class.getResourceAsStream("/logging-utils.jar")) {
+            Files.copy(is, dest.toPath(), StandardCopyOption.REPLACE_EXISTING);
+        } catch (IOException ex) {
+            System.out.println("Can not copy logging utils jar");
+        }
     }
 
     private static String decodePath(String path) {
